@@ -22,6 +22,7 @@ def getMacOSAppVersion(program):
 
 def findSupportedBrowsers(os_name):
     supported = ['Google Chrome', 'Firefox', 'Edge', 'Internet Explorer', 'Opera', 'Safari']
+    browsers = []
     
     if os_name == 'MacOS':
         programs = os.listdir('/Applications')
@@ -31,7 +32,16 @@ def findSupportedBrowsers(os_name):
     if os_name == 'Windows':
         programs = os.listdir('C:\Program Files')
         x86_programs = os.listdir('C:\Program Files (x86)')
-        browsers = x86_programs + programs
+        
+        if os.path.exists('C:\Program Files\Google\Chrome'):
+            version = subprocess.Popen(['wmic', 'datafile', 'where', 'name="C:\Program Files\Google\Chrome\Application\chrome"', 'get' 'Version' '/value']).communicate()[0]
+            version = version.decode('utf-8')
+            browsers.append(['Google Chrome', version])
+
+        elif os.path.exists('C:\Program Files (x86)\Google\Chrome'):
+            version = subprocess.Popen(['wmic', 'datafile', 'where', 'name="C:\Program Files (x86)\Google\Chrome\Application\chrome"', 'get' 'Version' '/value']).communicate()[0]
+            version = version.decode('utf-8')
+            browsers.append(['Google Chrome', version])
 
     if os_name == 'Linux':
         browsers = []
