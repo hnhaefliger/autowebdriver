@@ -1,0 +1,24 @@
+import os
+import subprocess
+
+def getAppVersion(app):
+    version = subprocess.Popen(['mdls', '-name', 'kMDItemVersion', app], stdout=subprocess.PIPE, stderr=subprocess.STDOUT).communicate()[0]
+    version = version.decode('utf-8')
+    version = version.split('"')[1]
+    return version
+
+def findBrowsers():
+    supported = ['Google Chrome', 'Firefox', 'Edge', 'Internet Explorer', 'Opera', 'Safari']
+    
+    global_apps = os.listdir('/Applications')
+    global_apps = [app.replace('.app', '') for app in global_apps if '.app' in app]
+    global_apps = [[app, getAppVersion('/Applications/' + app + '.app')] for app in global_apps if app in supported]
+
+    user_apps = os.listdir(os.path.expanduser('~/Applications'))
+    user_apps = [app.replace('.app', '') for app in user_apps if '.app' in app]
+    user_apps = [[app, getAppVersion(os.path.expanduser('~/Applications/') + app + '.app')] for app in user_apps if app in supported]
+    user_apps = [app for app in user_apps if not(app in global_apps)]
+
+    apps = global_apps + user_apps
+
+    return apps
