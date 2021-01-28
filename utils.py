@@ -34,7 +34,7 @@ def findSupportedBrowsers(os_name):
         x86_programs = os.listdir('C:\Program Files (x86)')
         
         if os.path.exists('C:\Program Files\Google\Chrome'):
-            version = subprocess.Popen(['wmic', 'datafile', 'where', 'name="C:\Program Files\Google\Chrome\Application\chrome"', 'get' 'Version' '/value']).communicate()[0]
+            version = subprocess.Popen(['powershell', '-Command', '(Get-Command "C:\Program Files\Google\Chrome\Application\chrome").FileVersionInfo.FileVersion]').communicate()[0]
             version = version.decode('utf-8')
             browsers.append(['Google Chrome', version])
 
