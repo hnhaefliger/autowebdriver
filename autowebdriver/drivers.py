@@ -3,8 +3,6 @@ from . import macos
 from . import windows
 import platform
 
-
-
 def getOS():
     '''
     Get the name of the current local operating system
@@ -23,7 +21,7 @@ def getOS():
     if os_name == 'Linux':
         return 'linux'
 
-def findBrowsers(os_name):
+def findBrowsers():
     '''
     Get a list of installed browsers based on the current operating system.
     
@@ -37,6 +35,8 @@ def findBrowsers(os_name):
 
     Safari support is built into the app but needs to be enabled manually in settings (admin) - I'll come back to this later.
     '''
+
+    os_name = getOS()
     
     if os_name == 'macos':
         return macos.findBrowsers()
@@ -50,7 +50,7 @@ def findBrowsers(os_name):
     else:
         raise ValueError('Invalid operating system name')
 
-def getDriver(driver, version, os):
+def getDriver():
     '''
     Download browser driver.
 
@@ -64,5 +64,8 @@ def getDriver(driver, version, os):
 
     Safari support is built into the app but needs to be enabled manually in settings (admin) - I'll come back to this later.
     '''
-    
-    pass
+
+    browsers = findBrowsers()
+    os_name = getOS()
+
+    return os_name, browsers

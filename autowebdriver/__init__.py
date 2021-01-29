@@ -1,1 +1,1 @@
-from .drivers import findBrowsers, getDriver, getOS
+from .drivers import getDriver

@@ -1,3 +1,3 @@
 import autowebdriver
 
-print(autowebdriver.findBrowsers(autowebdriver.getOS()))
+print(autowebdriver.getDriver())
