@@ -2,13 +2,22 @@ import os
 import subprocess
 
 def getAppVersion(app):
+    '''
+    Get the version of an app that is installed on macos
+    '''
     version = subprocess.Popen(['mdls', '-name', 'kMDItemVersion', app], stdout=subprocess.PIPE, stderr=subprocess.STDOUT).communicate()[0]
     version = version.decode('utf-8')
     version = version.split('"')[1]
     return version
 
 def findBrowsers():
-    supported = ['Google Chrome', 'Firefox', 'Edge', 'Internet Explorer', 'Opera', 'Safari']
+    '''
+    List browsers and versions installed on a macos operating system
+
+    Safari gets last priority because it needs to be set up for selenium by
+    developers rather than with a driver.
+    '''
+    supported = ['Google Chrome', 'Firefox', 'Opera', 'Safari']
     
     global_apps = os.listdir('/Applications')
     global_apps = [app.replace('.app', '') for app in global_apps if '.app' in app]
