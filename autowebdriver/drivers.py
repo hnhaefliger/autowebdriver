@@ -41,10 +41,10 @@ def findBrowsers():
     if os_name == 'macos':
         return macos.findBrowsers()
 
-    if os_name == 'Windows':
+    if os_name == 'windows':
         return windows.findBrowsers()
 
-    if os_name == 'Linux':
+    if os_name == 'linux':
         return linux.findBrowsers()
 
     else:
