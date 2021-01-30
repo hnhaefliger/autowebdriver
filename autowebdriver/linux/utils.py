@@ -29,19 +29,19 @@ def findBrowsers():
 
     try:
         subprocess.Popen(['google-chrome', '--version'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT).communicate()
-        browsers.append(['Google Chrome', getAppVersion('google-chrome')])
+        browsers.append(['Google Chrome', getAppVersion('google-chrome'), 64])
 
     except: pass
 
     try:
         subprocess.Popen(['firefox', '--version'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT).communicate()
-        browsers.append(['Firefox', getAppVersion('firefox')])
+        browsers.append(['Firefox', getAppVersion('firefox'), 64])
 
     except: pass
 
     try:
         subprocess.Popen(['opera', '--version'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT).communicate()
-        browsers.append(['Opera', getAppVersion('opera')])
+        browsers.append(['Opera', getAppVersion('opera'), 64])
 
     except: pass
 

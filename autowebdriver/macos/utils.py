@@ -21,11 +21,11 @@ def findBrowsers():
     
     global_apps = os.listdir('/Applications')
     global_apps = [app.replace('.app', '') for app in global_apps if '.app' in app]
-    global_apps = [[app, getAppVersion('/Applications/' + app + '.app')] for app in global_apps if app in supported]
+    global_apps = [[app, getAppVersion('/Applications/' + app + '.app'), 64] for app in global_apps if app in supported]
 
     user_apps = os.listdir(os.path.expanduser('~/Applications')) # Preference for non user-specific applications
     user_apps = [app.replace('.app', '') for app in user_apps if '.app' in app]
-    user_apps = [[app, getAppVersion(os.path.expanduser('~/Applications/') + app + '.app')] for app in user_apps if app in supported]
+    user_apps = [[app, getAppVersion(os.path.expanduser('~/Applications/') + app + '.app'), 64] for app in user_apps if app in supported]
     user_apps = [app for app in user_apps if not(app in global_apps)]
 
     browsers = global_apps + user_apps
