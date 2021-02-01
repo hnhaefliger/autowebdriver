@@ -1,6 +1,7 @@
 from . import linux
 from . import macos
 from . import windows
+from . import browserdata
 import requests
 import platform
 import sys
@@ -35,4 +36,8 @@ def getDriver():
     else:
         raise OSError('Invalid operating system name')
 
-    return browsers
+    print(browsers)
+
+    urls = [browserdata.getDriverURL(browser[0], browser[1], platform.system(), browser[2]) for browser in browsers]
+
+    return urls
