@@ -33,6 +33,6 @@ def getURL(version, os, bits):
     else:
         raise OSError('Invalid operating system name')
 
-    url = 'https://chromedriver.storage.googleapis.com/index.html?path=' + data + '/' + file
+    url = 'https://chromedriver.storage.googleapis.com/' + data + '/' + file
 
     return url
