@@ -3,13 +3,38 @@ import zipfile
 import tarfile
 import warnings
 import os
+import platform
+import shutil
+
+def findExecutables(path):
+    '''
+    Find the driver executable in tree.
+    '''
+    found = []
+    separator = '/'
+    
+    if platform.system() == 'Windows':
+        separator = '\\'
+
+    if path[-1] == separator:
+        path = path[:-1]
+        
+    for file in os.listdir(path):
+        if os.path.isfile(path + separator + file):
+            if 'driver' in file:
+                found.append([path + separator + file, file])
+
+        else:
+            found += findExecutables(path + separator + file)
+
+    return found
 
 def downloadAndExtract(url, path):
     '''
     Download and extract the file from a given url.
     '''
     download_output = path + url.split('/')[-1]
-    extract_output = path + 'driver'
+    extract_output = path + 'driver_dir'
     
     response = requests.get(url, stream=True)
     iterable = response.iter_content(chunk_size=1024)
@@ -45,5 +70,8 @@ def downloadAndExtract(url, path):
         compressed_file.extract(file, path=extract_output)
 
     os.remove(download_output)
+    file = findExecutables(path + 'driver_dir')[0]
+    shutil.move(file[0], path)
+    shutil.rmtree(path + 'driver_dir')
     
-    return path + 'driver'
+    return path + file[1]
