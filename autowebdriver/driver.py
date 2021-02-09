@@ -19,11 +19,11 @@ def getdriver(path=None):
 
     Safari support is built into the app but needs to be enabled manually in settings (admin) - I'll come back to this later.
     '''
+    warnings.filterwarnings("ignore")
+    
     operating_system, bits = systems.info()
 
     browser = systems.getBrowsers(operating_system, bits)[0]
-
-    
 
     url = browsers.getURL(browser[0], browser[1], operating_system, browser[2])
 
