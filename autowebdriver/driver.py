@@ -23,6 +23,8 @@ def getdriver(path=None):
 
     browser = systems.getBrowsers(operating_system, bits)[0]
 
+    
+
     url = browsers.getURL(browser[0], browser[1], operating_system, browser[2])
 
     if url == None:

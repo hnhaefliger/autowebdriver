@@ -33,45 +33,59 @@ def downloadAndExtract(url, path):
     '''
     Download and extract the file from a given url.
     '''
-    download_output = path + url.split('/')[-1]
-    extract_output = path + 'driver_dir'
-    
-    response = requests.get(url, stream=True)
-    iterable = response.iter_content(chunk_size=1024)
+    try:
+        with open(path + 'saved.txt', 'r') as f:
+            saved = f.read()
 
-    with open(download_output, 'wb+') as f: # save zip file
-        for chunk in iterable:
-            f.write(chunk)
+    except: saved = ''
 
-    if '.zip' in download_output:
-        compressed_file = zipfile.ZipFile(download_output, 'r') # open zip file
-        iterable = compressed_file.infolist() # get list of zipped contents
-
-    elif '.tar' in download_output:
-        if '.gz' in download_output:
-            mode = 'r:gz'
-          
-        elif '.bz2' in download_output:
-            mode = 'r:bz2'
-            
-        elif '.xz' in download_output:
-            mode = 'r:xz'
-            
-        else:
-            mode = 'r'
+    if url not in saved:
+        download_output = path + url.split('/')[-1]
+        extract_output = path + 'driver_dir'
         
-        compressed_file = tarfile.open(download_output, mode) # open tar file
-        iterable = compressed_file.getmembers() # get list of tar contents
+        response = requests.get(url, stream=True, verify=False)
+        iterable = response.iter_content(chunk_size=1024)
+
+        with open(download_output, 'wb+') as f: # save zip file
+            for chunk in iterable:
+                f.write(chunk)
+
+        if '.zip' in download_output:
+            compressed_file = zipfile.ZipFile(download_output, 'r') # open zip file
+            iterable = compressed_file.infolist() # get list of zipped contents
+
+        elif '.tar' in download_output:
+            if '.gz' in download_output:
+                mode = 'r:gz'
+              
+            elif '.bz2' in download_output:
+                mode = 'r:bz2'
+                
+            elif '.xz' in download_output:
+                mode = 'r:xz'
+                
+            else:
+                mode = 'r'
+            
+            compressed_file = tarfile.open(download_output, mode) # open tar file
+            iterable = compressed_file.getmembers() # get list of tar contents
+
+        else:
+            raise Exception('Unsupported compression type')
+
+        for file in iterable: # extract files
+            compressed_file.extract(file, path=extract_output)
+
+        os.remove(download_output)
+        file = findExecutables(path + 'driver_dir')[0]
+        shutil.move(file[0], path)
+        shutil.rmtree(path + 'driver_dir')
+
+        with open(path + 'saved.txt', 'w') as f:
+            f.write(url)
 
     else:
-        raise Exception('Unsupported compression type')
+        file = findExecutables(path)[0]
 
-    for file in iterable: # extract files
-        compressed_file.extract(file, path=extract_output)
-
-    os.remove(download_output)
-    file = findExecutables(path + 'driver_dir')[0]
-    shutil.move(file[0], path)
-    shutil.rmtree(path + 'driver_dir')
-    
     return path + file[1]
+        
