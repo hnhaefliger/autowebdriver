@@ -78,14 +78,11 @@ def downloadAndExtract(url, path):
 
         os.remove(download_output)
         file = findExecutables(path + 'driver_dir')[0]
-        shutil.move(file[0], path)
+        os.rename(file[0], path + 'driver')
         shutil.rmtree(path + 'driver_dir')
 
         with open(path + 'saved.txt', 'w') as f:
             f.write(url)
 
-    else:
-        file = findExecutables(path)[0]
-
-    return path + file[1]
+    return path + 'driver'
         
