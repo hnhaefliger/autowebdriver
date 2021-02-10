@@ -5,6 +5,7 @@ import warnings
 import os
 import platform
 import shutil
+import stat
 
 def findExecutables(path):
     '''
@@ -79,6 +80,7 @@ def downloadAndExtract(url, path):
         os.remove(download_output)
         file = findExecutables(path + 'driver_dir')[0]
         os.rename(file[0], path + 'driver')
+        os.chmod(path + 'driver', stat.S_IRWXO | stat.S_IRWXG | stat.S_IRWXU)
         shutil.rmtree(path + 'driver_dir')
 
         with open(path + 'saved.txt', 'w') as f:

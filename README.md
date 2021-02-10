@@ -6,22 +6,24 @@ Sample usage:
 
 ```python
 import autowebdriver
-import selenium
+from selenium import webdriver
 
 browser, path = autowebdriver.getdriver() 
 
 if browser == 'Google Chrome':
-    driver = selenium.webdriver.Chrome(executable_path=path)
+    driver = webdriver.Chrome(executable_path=path)
     
 elif browser == 'Firefox':
-    driver = selenium.webdriver.Firefox(executable_path=path)
+    driver = webdriver.Firefox(executable_path=path)
     
 elif browser == 'Opera':
-    driver = selenium.webdriver.Opera(executable_path=path)
+    driver = webdriver.Opera(executable_path=path)
     
 elif browser == 'Internet Explorer':
-    driver = selenium.webdriver.Ie(executable_path=path)
+    driver = webdriver.Ie(executable_path=path)
     
 elif browser == 'Edge':
-    driver = selenium.webdriver.Edge(executable_path=path)
+    driver = webdriver.Edge(executable_path=path)
+
+driver.get('https://google.com')
 ```

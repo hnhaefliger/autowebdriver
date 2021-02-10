@@ -1,5 +1,6 @@
 import warnings
 import os
+import logging
 
 from . import systems
 from . import browsers
@@ -20,11 +21,14 @@ def getdriver(path=None):
     Safari support is built into the app but needs to be enabled manually in settings (admin) - I'll come back to this later.
     '''
     warnings.filterwarnings("ignore")
-    
+
+    logging.info('getting system info...')
     operating_system, bits = systems.info()
 
+    logging.info('finding browsers...')
     browser = systems.getBrowsers(operating_system, bits)[0]
 
+    logging.info('getting download url...')
     url = browsers.getURL(browser[0], browser[1], operating_system, browser[2])
 
     if url == None:
@@ -37,6 +41,7 @@ def getdriver(path=None):
 
         path = os.path.abspath(os.path.dirname(__file__)) + slash + 'drivers' + slash
 
+    logging.info('getting driver...')
     location = downloads.downloadAndExtract(url, path)
     
     return browser[0], location
